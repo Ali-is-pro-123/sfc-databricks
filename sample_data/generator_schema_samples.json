@@ -1,0 +1,325 @@
+{
+  "customers": [
+    {
+      "code": "CU0000001",
+      "cohort": "synthetic",
+      "joined_on": "2025-01-21"
+    },
+    {
+      "code": "CU0000002",
+      "cohort": "synthetic",
+      "joined_on": "2025-01-04"
+    },
+    {
+      "code": "CU0000003",
+      "cohort": "synthetic",
+      "joined_on": "2025-01-01"
+    }
+  ],
+  "inventory": [
+    {
+      "code": "I0000001",
+      "consumed_quantity": "0",
+      "date": "2025-01-01",
+      "item_code": "M0000001",
+      "opening_quantity": "0",
+      "replenished_quantity": "0",
+      "restaurant_code": "R0000001",
+      "unit": "portion"
+    },
+    {
+      "code": "I0000002",
+      "consumed_quantity": "0",
+      "date": "2025-01-01",
+      "item_code": "M0000002",
+      "opening_quantity": "0",
+      "replenished_quantity": "0",
+      "restaurant_code": "R0000001",
+      "unit": "portion"
+    },
+    {
+      "code": "I0000003",
+      "consumed_quantity": "0",
+      "date": "2025-01-01",
+      "item_code": "M0000003",
+      "opening_quantity": "0",
+      "replenished_quantity": "0",
+      "restaurant_code": "R0000001",
+      "unit": "portion"
+    }
+  ],
+  "menu_categories": [
+    {
+      "code": "C0000001",
+      "description": "Rice Meals category",
+      "name": "Rice Meals"
+    },
+    {
+      "code": "C0000002",
+      "description": "Grill category",
+      "name": "Grill"
+    },
+    {
+      "code": "C0000003",
+      "description": "Burgers category",
+      "name": "Burgers"
+    }
+  ],
+  "menu_items": [
+    {
+      "category_code": "C0000001",
+      "code": "M0000001",
+      "description": "Synthetic menu item",
+      "introduced_on": "2025-01-01",
+      "is_available": "True",
+      "name": "Chicken Biryani 1"
+    },
+    {
+      "category_code": "C0000002",
+      "code": "M0000002",
+      "description": "Synthetic menu item",
+      "introduced_on": "2025-01-01",
+      "is_available": "True",
+      "name": "Beef Kebab 1"
+    },
+    {
+      "category_code": "C0000003",
+      "code": "M0000003",
+      "description": "Synthetic menu item",
+      "introduced_on": "2025-01-01",
+      "is_available": "True",
+      "name": "Classic Burger 1"
+    }
+  ],
+  "order_items": [
+    {
+      "code": "L0000001",
+      "discount_amount": "0.00",
+      "item_code": "M0000013",
+      "line_number": "1",
+      "order_code": "O0000001",
+      "promotion_code": "",
+      "quantity": "1",
+      "unit": "portion",
+      "unit_cost": "272.16",
+      "unit_price": "504.00"
+    },
+    {
+      "code": "L0000002",
+      "discount_amount": "0.00",
+      "item_code": "M0000014",
+      "line_number": "2",
+      "order_code": "O0000001",
+      "promotion_code": "",
+      "quantity": "2",
+      "unit": "portion",
+      "unit_cost": "323.91",
+      "unit_price": "531.00"
+    },
+    {
+      "code": "L0000003",
+      "discount_amount": "0.00",
+      "item_code": "M0000009",
+      "line_number": "1",
+      "order_code": "O0000002",
+      "promotion_code": "",
+      "quantity": "1",
+      "unit": "portion",
+      "unit_cost": "242.48",
+      "unit_price": "397.50"
+    }
+  ],
+  "ordering_channels": [
+    {
+      "code": "CH0000001",
+      "name": "Dine-in"
+    },
+    {
+      "code": "CH0000002",
+      "name": "Takeaway"
+    },
+    {
+      "code": "CH0000003",
+      "name": "Website/App"
+    }
+  ],
+  "orders": [
+    {
+      "channel_code": "CH0000001",
+      "code": "O0000001",
+      "customer_code": "CU0000001",
+      "ordered_at": "2025-02-08T17:45:00+00:00",
+      "promotion_code": "",
+      "restaurant_code": "R0000001",
+      "status": "completed"
+    },
+    {
+      "channel_code": "CH0000001",
+      "code": "O0000002",
+      "customer_code": "CU0000002",
+      "ordered_at": "2025-05-20T09:17:00+00:00",
+      "promotion_code": "PR0000009",
+      "restaurant_code": "R0000002",
+      "status": "completed"
+    },
+    {
+      "channel_code": "CH0000004",
+      "code": "O0000003",
+      "customer_code": "CU0000003",
+      "ordered_at": "2025-06-18T15:16:00+00:00",
+      "promotion_code": "",
+      "restaurant_code": "R0000010",
+      "status": "completed"
+    }
+  ],
+  "pricing_history": [
+    {
+      "code": "P000-000-0",
+      "effective_at": "2024-12-31T19:00:00+00:00",
+      "item_code": "M0000001",
+      "restaurant_code": "R0000001",
+      "unit_cost": "205.20",
+      "unit_price": "180.00"
+    },
+    {
+      "code": "P000-000-1",
+      "effective_at": "2025-07-01T19:00:00+00:00",
+      "item_code": "M0000001",
+      "restaurant_code": "R0000001",
+      "unit_cost": "210.33",
+      "unit_price": "187.20"
+    },
+    {
+      "code": "P000-000-2",
+      "effective_at": "2025-12-30T19:00:00+00:00",
+      "item_code": "M0000001",
+      "restaurant_code": "R0000001",
+      "unit_cost": "215.46",
+      "unit_price": "194.40"
+    }
+  ],
+  "promotion_items": [
+    {
+      "code": "PM000-005",
+      "item_code": "M0000006",
+      "promotion_code": "PR0000001"
+    },
+    {
+      "code": "PM000-012",
+      "item_code": "M0000013",
+      "promotion_code": "PR0000001"
+    },
+    {
+      "code": "PM000-013",
+      "item_code": "M0000014",
+      "promotion_code": "PR0000001"
+    }
+  ],
+  "promotions": [
+    {
+      "code": "PR0000001",
+      "coupon_code": "DINE1",
+      "discount_percent": "45.00",
+      "ends_at": "2025-02-13T19:00:00+00:00",
+      "name": "Seasonal offer 1",
+      "starts_at": "2025-01-30T19:00:00+00:00"
+    },
+    {
+      "code": "PR0000002",
+      "coupon_code": "DINE2",
+      "discount_percent": "20.00",
+      "ends_at": "2025-02-25T19:00:00+00:00",
+      "name": "Seasonal offer 2",
+      "starts_at": "2025-02-11T19:00:00+00:00"
+    },
+    {
+      "code": "PR0000003",
+      "coupon_code": "DINE3",
+      "discount_percent": "25.00",
+      "ends_at": "2025-03-09T19:00:00+00:00",
+      "name": "Seasonal offer 3",
+      "starts_at": "2025-02-23T19:00:00+00:00"
+    }
+  ],
+  "ratings": [
+    {
+      "code": "RT0000001",
+      "order_item_code": "L0000014",
+      "rated_at": "2025-03-22T08:34:00+00:00",
+      "score": "4"
+    },
+    {
+      "code": "RT0000002",
+      "order_item_code": "L0000031",
+      "rated_at": "2025-06-26T09:35:00+00:00",
+      "score": "5"
+    },
+    {
+      "code": "RT0000003",
+      "order_item_code": "L0000080",
+      "rated_at": "2026-05-16T16:14:00+00:00",
+      "score": "4"
+    }
+  ],
+  "restaurants": [
+    {
+      "address": "Synthetic branch 1",
+      "city": "Karachi",
+      "code": "R0000001",
+      "is_active": "True",
+      "name": "DineIQ Karachi 1",
+      "timezone": "Asia/Karachi"
+    },
+    {
+      "address": "Synthetic branch 2",
+      "city": "Lahore",
+      "code": "R0000002",
+      "is_active": "True",
+      "name": "DineIQ Lahore 2",
+      "timezone": "Asia/Karachi"
+    },
+    {
+      "address": "Synthetic branch 3",
+      "city": "Islamabad",
+      "code": "R0000003",
+      "is_active": "True",
+      "name": "DineIQ Islamabad 3",
+      "timezone": "Asia/Karachi"
+    }
+  ],
+  "wastage": [
+    {
+      "code": "W0000001",
+      "item_code": "M0000004",
+      "prepared_quantity": "4",
+      "reason": "Overproduction",
+      "recorded_at": "2025-01-01T18:00:00+00:00",
+      "restaurant_code": "R0000001",
+      "unit": "portion",
+      "unit_cost": "247.95",
+      "wasted_quantity": "4"
+    },
+    {
+      "code": "W0000002",
+      "item_code": "M0000036",
+      "prepared_quantity": "3",
+      "reason": "Overproduction",
+      "recorded_at": "2025-01-01T18:00:00+00:00",
+      "restaurant_code": "R0000001",
+      "unit": "portion",
+      "unit_cost": "234.00",
+      "wasted_quantity": "3"
+    },
+    {
+      "code": "W0000003",
+      "item_code": "M0000091",
+      "prepared_quantity": "1",
+      "reason": "Overproduction",
+      "recorded_at": "2025-01-01T18:00:00+00:00",
+      "restaurant_code": "R0000001",
+      "unit": "portion",
+      "unit_cost": "180.00",
+      "wasted_quantity": "1"
+    }
+  ]
+}
