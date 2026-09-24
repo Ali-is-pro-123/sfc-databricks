@@ -1,0 +1,48 @@
+# Python-generated files
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+build/
+dist/
+wheels/
+*.egg-info/
+
+# Virtual environments and local configuration
+.venv/
+.env
+.env.*
+!.env.example
+
+# Django runtime files
+db.sqlite3
+media/
+staticfiles/
+
+# Editors and operating systems
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Generated data and model artifacts are too large for source control.
+raw_data/*
+!raw_data/README.md
+processed_data/*
+!processed_data/README.md
+parquet_data/*
+!parquet_data/README.md
+models/*
+!models/README.md
+reports/generated/*
+!reports/generated/README.md
+
+# Local logs and temporary files
+logs/
+tmp/
+*.log
+handoff_exports/
