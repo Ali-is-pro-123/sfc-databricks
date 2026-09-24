@@ -1,0 +1,89 @@
+name: dineiq
+
+services:
+  postgres:
+    image: postgres:17.11-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-dineiq}
+      POSTGRES_USER: ${POSTGRES_USER:-dineiq}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-replace-this-with-a-random-db-password}
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  redis:
+    image: redis:7.4-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "127.0.0.1:${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  spark-master:
+    build:
+      context: .
+      dockerfile: config/spark.Dockerfile
+    image: dineiq-spark-ml:3.5.9
+    command:
+      - /opt/spark/bin/spark-class
+      - org.apache.spark.deploy.master.Master
+    environment:
+      SPARK_MASTER_HOST: spark-master
+      SPARK_MASTER_PORT: 7077
+      SPARK_MASTER_WEBUI_PORT: 8080
+    ports:
+      - "127.0.0.1:${SPARK_MASTER_PORT:-17077}:7077"
+      - "127.0.0.1:${SPARK_MASTER_UI_PORT:-18080}:8080"
+    volumes:
+      - ./data_generator:/opt/dineiq/data_generator:ro
+      - ./raw_data:/opt/dineiq/raw_data
+      - ./processed_data:/opt/dineiq/processed_data
+      - ./parquet_data:/opt/dineiq/parquet_data
+      - ./spark_jobs:/opt/dineiq/spark_jobs:ro
+      - ./spark_sql:/opt/dineiq/spark_sql:ro
+      - ./models:/opt/dineiq/models
+    restart: unless-stopped
+
+  spark-worker:
+    build:
+      context: .
+      dockerfile: config/spark.Dockerfile
+    image: dineiq-spark-ml:3.5.9
+    command:
+      - /opt/spark/bin/spark-class
+      - org.apache.spark.deploy.worker.Worker
+      - spark://spark-master:7077
+    environment:
+      SPARK_WORKER_CORES: ${SPARK_WORKER_CORES:-2}
+      SPARK_WORKER_MEMORY: ${SPARK_WORKER_MEMORY:-2g}
+      SPARK_WORKER_WEBUI_PORT: 8081
+    ports:
+      - "127.0.0.1:${SPARK_WORKER_UI_PORT:-18081}:8081"
+    volumes:
+      - ./data_generator:/opt/dineiq/data_generator:ro
+      - ./raw_data:/opt/dineiq/raw_data
+      - ./processed_data:/opt/dineiq/processed_data
+      - ./parquet_data:/opt/dineiq/parquet_data
+      - ./spark_jobs:/opt/dineiq/spark_jobs:ro
+      - ./spark_sql:/opt/dineiq/spark_sql:ro
+      - ./models:/opt/dineiq/models
+    depends_on:
+      - spark-master
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
