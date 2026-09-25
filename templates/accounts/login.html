@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Sign in | DineIQ{% endblock %}
+{% block content %}
+<section class="entry-layout">
+  <div class="entry-visual">
+    <img src="{% static 'assets/restaurant-table.png' %}" alt="">
+    <div class="entry-visual-copy">
+      <p class="eyebrow">Restaurant intelligence</p>
+      <h2 class="mt-4">Insight for every service.</h2>
+      <p class="mt-4 text-sm">Explore verified operational data and carefully labeled forecasts in one workspace.</p>
+    </div>
+    <span class="photo-disclosure">Representative food photography</span>
+  </div>
+  <div class="entry-form-panel">
+    <p class="eyebrow">Welcome to DineIQ</p>
+    <h1 class="mt-4">Welcome back</h1>
+    <p class="mt-4 text-sm text-slate-600">Sign in with the account provided by your administrator.</p>
+    <form method="post">
+      {% csrf_token %}
+      {% include 'accounts/fields.html' %}
+      <input type="hidden" name="next" value="{{ next }}">
+      <button type="submit" class="primary-action">Sign in <span class="ml-2" aria-hidden="true">&rarr;</span></button>
+    </form>
+  </div>
+</section>
+{% endblock %}

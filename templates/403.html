@@ -1,0 +1,3 @@
+{% extends 'base.html' %}
+{% block title %}Access denied | DineIQ{% endblock %}
+{% block content %}<h1 class="text-3xl font-semibold">Access denied</h1><p class="my-4 text-slate-600">Your account does not have permission to open this page.</p><a class="underline" href="{% url 'accounts:home' %}">Return home</a>{% endblock %}

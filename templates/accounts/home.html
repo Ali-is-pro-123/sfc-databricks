@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<section class="welcome-panel">
+  <div class="welcome-copy">
+    <p class="eyebrow">{{ user.get_role_display }} · DineIQ workspace</p>
+    <h1 class="mt-5">Welcome, {{ user.first_name|default:user.username }}</h1>
+    <p class="mt-5 text-slate-600">Explore verified restaurant analytics for your permitted locations. Historical results and forecasts are labeled separately throughout the workspace.</p>
+    <div class="action-row">
+      <a href="{% url 'executive_dashboard' %}" class="primary-action">Open executive dashboard <span class="ml-3" aria-hidden="true">&rarr;</span></a>
+      {% if user.can_manage_accounts %}<a href="{% url 'accounts:create' %}" class="secondary-action">Create an account</a>{% endif %}
+    </div>
+  </div>
+  <div class="welcome-photo">
+    <img src="{% static 'assets/restaurant-table.png' %}" alt="A representative restaurant table with prepared dishes">
+    <span class="photo-disclosure">Representative food photography</span>
+  </div>
+</section>
+{% endblock %}

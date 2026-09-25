@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Accounts | DineIQ{% endblock %}
+{% block content %}
+<div class="mb-8 flex flex-wrap items-center justify-between gap-4">
+  <h1 class="text-3xl font-semibold">Accounts</h1>
+  <a class="rounded-lg theme-action px-5 py-3 text-white" href="{% url 'accounts:create' %}">Create account</a>
+</div>
+<div class="overflow-x-auto rounded-xl border border-slate-200 bg-white">
+  <table class="w-full text-left text-sm">
+    <caption class="sr-only">Application users and business roles</caption>
+    <thead class="bg-slate-100"><tr><th scope="col" class="p-4">Username</th><th scope="col" class="p-4">Role</th><th scope="col" class="p-4">Status</th></tr></thead>
+    <tbody>{% for account in page_obj %}<tr class="border-t border-slate-100"><td class="p-4">{{ account.username }}</td><td class="p-4">{{ account.get_role_display }}</td><td class="p-4">{{ account.is_active|yesno:'Active,Inactive' }}</td></tr>{% empty %}<tr><td colspan="3" class="p-4">No accounts found.</td></tr>{% endfor %}</tbody>
+  </table>
+</div>
+<nav aria-label="Pagination" class="mt-5 flex gap-5 text-sm">
+  {% if page_obj.has_previous %}<a class="underline" href="?page={{ page_obj.previous_page_number }}">Previous</a>{% endif %}
+  <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+  {% if page_obj.has_next %}<a class="underline" href="?page={{ page_obj.next_page_number }}">Next</a>{% endif %}
+</nav>
+{% endblock %}
