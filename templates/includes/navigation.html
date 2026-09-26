@@ -1,0 +1,35 @@
+<nav aria-label="Main navigation" class="sidebar-navigation">
+  <div class="navigation-group">
+    <p class="navigation-heading">Overview</p>
+    {% include 'includes/navigation_link.html' with route='executive_dashboard' label='Dashboard' icon='dashboard' %}
+    {% include 'includes/navigation_link.html' with route='restaurants:list' child_route='restaurants:detail' label='Locations' icon='pin' %}
+  </div>
+  <div class="navigation-group">
+    <p class="navigation-heading">Intelligence</p>
+    {% include 'includes/navigation_link.html' with route='menu_dashboard' label='Menu intelligence' icon='menu' %}
+    {% include 'includes/navigation_link.html' with route='customer_dashboard' label='Customer intelligence' icon='people' %}
+    {% include 'includes/navigation_link.html' with route='wastage_dashboard' label='Wastage intelligence' icon='waste' %}
+    {% include 'includes/navigation_link.html' with route='forecast_dashboard' label='Forecast intelligence' icon='forecast' %}
+  </div>
+  <div class="navigation-group">
+    <p class="navigation-heading">Analytics</p>
+    {% include 'includes/navigation_link.html' with route='dual_dashboard' label='Spark vs Python' icon='code' %}
+    {% include 'includes/navigation_link.html' with route='restaurants:recommendations' label='Recommendations' icon='idea' %}
+    {% include 'includes/navigation_link.html' with route='restaurants:scenarios' label='What-if analysis' icon='sliders' %}
+  </div>
+  <div class="navigation-group">
+    <p class="navigation-heading">Reports</p>
+    {% include 'includes/navigation_link.html' with route='report_center' label='Reports' icon='report' %}
+    {% include 'includes/navigation_link.html' with route='analytics_search' label='Analytics search' icon='search' %}
+  </div>
+  {% if user.can_manage_accounts %}
+  <div class="navigation-group">
+    <p class="navigation-heading">Administration</p>
+    {% include 'includes/navigation_link.html' with route='management:index' label='Manage data' icon='database' %}
+    {% include 'includes/navigation_link.html' with route='accounts:list' child_route='accounts:create' label='Users / roles' icon='people' title='Manage accounts' %}
+  </div>
+  {% endif %}
+</nav>
+<div class="sidebar-footer">
+  {% load static %}<form method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}<button class="sign-out-button" type="submit"><svg class="nav-icon" aria-hidden="true"><use href="{% static 'assets/icons.svg' %}#logout"></use></svg>Sign out</button></form>
+</div>

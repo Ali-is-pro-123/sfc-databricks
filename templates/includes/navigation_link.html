@@ -1,0 +1,2 @@
+{% load static %}{% url route as destination %}
+<a href="{{ destination }}" class="navigation-link{% if request.resolver_match.view_name == route or request.resolver_match.view_name == child_route %} is-active{% endif %}"{% if title %} title="{{ title }}"{% endif %}{% if request.resolver_match.view_name == route or request.resolver_match.view_name == child_route %} aria-current="page"{% endif %}><svg class="nav-icon" aria-hidden="true"><use href="{% static 'assets/icons.svg' %}#{{ icon }}"></use></svg><span>{{ label }}</span></a>

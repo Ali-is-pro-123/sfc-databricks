@@ -1,0 +1,61 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}DineIQ Analytics{% endblock %}</title>
+  <link rel="icon" href="{% static 'assets/brand.svg' %}" type="image/svg+xml">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="{% static 'css/theme.css' %}">
+  <link rel="stylesheet" href="{% static 'css/navigation.css' %}">
+  <script src="{% static 'js/navigation.js' %}" defer></script>
+</head>
+<body class="dineiq-theme min-h-screen bg-slate-50 text-slate-900 {% if user.is_authenticated %}has-sidebar{% endif %}">
+  <a href="#main" class="skip-link">Skip to content</a>
+  {% if user.is_authenticated %}
+  <aside class="desktop-sidebar" aria-label="Workspace sidebar">
+    <a href="{% url 'accounts:home' %}" class="brand" aria-label="DineIQ Restaurant Analytics home">{% include 'includes/brand_logo.html' %}</a>
+    {% include 'includes/navigation.html' %}
+  </aside>
+  <dialog id="navigation-drawer" aria-label="Navigation menu">
+    <div class="drawer-heading">
+      <a href="{% url 'accounts:home' %}" class="brand" aria-label="DineIQ Restaurant Analytics home">{% include 'includes/brand_logo.html' %}</a>
+      <button type="button" id="close-navigation" class="icon-button" aria-label="Close navigation">&times;</button>
+    </div>
+    {% include 'includes/navigation.html' %}
+  </dialog>
+  {% endif %}
+  <div class="workspace">
+    <header class="workspace-header">
+      {% if user.is_authenticated %}
+      <div class="header-leading">
+        <button type="button" id="open-navigation" class="icon-button mobile-menu-button" aria-label="Open navigation" aria-controls="navigation-drawer" aria-expanded="false">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <a href="{% url 'accounts:home' %}" class="mobile-brand-link" aria-label="DineIQ Restaurant Analytics home">{% include 'includes/brand_logo.html' %}</a>
+      </div>
+      <form class="header-search" action="{% url 'analytics_search' %}" method="get" role="search">
+        <svg class="header-icon" aria-hidden="true"><use href="{% static 'assets/icons.svg' %}#search"></use></svg>
+        <label class="sr-only" for="global-search">Search menu items</label>
+        <input id="global-search" name="item" type="search" placeholder="Search menu items…" maxlength="60">
+      </form>
+      <div class="header-utilities">
+        <span class="header-period" title="Verified historical sales period"><svg class="header-icon" aria-hidden="true"><use href="{% static 'assets/icons.svg' %}#calendar"></use></svg>02 Apr – 30 Jun 2026</span>
+        <a class="header-location" href="{% url 'restaurants:list' %}"><svg class="header-icon" aria-hidden="true"><use href="{% static 'assets/icons.svg' %}#pin"></use></svg>My locations</a>
+      </div>
+      <div class="header-profile">
+        <span class="account-avatar" aria-hidden="true">{{ user.username|first|upper }}</span>
+        <div class="min-w-0"><p class="max-w-40 truncate text-sm font-semibold">{{ user.username }}</p><p class="text-xs text-slate-500">{{ user.get_role_display }}</p></div>
+      </div>
+      {% else %}
+      <a href="{% url 'accounts:home' %}" class="brand" aria-label="DineIQ Restaurant Analytics home">{% include 'includes/brand_logo.html' %}</a>
+      {% endif %}
+    </header>
+  <main id="main" tabindex="-1" class="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
+    {% for message in messages %}<p role="status" class="mb-6 rounded-lg bg-warm-soft p-4 text-ink">{{ message }}</p>{% endfor %}
+    {% block content %}{% endblock %}
+  </main>
+  </div>
+</body>
+</html>
