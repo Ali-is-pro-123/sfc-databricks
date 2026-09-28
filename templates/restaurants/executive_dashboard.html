@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load static analytics_display %}
+{% block title %}Executive dashboard · DineIQ{% endblock %}
+{% block content %}
+<div class="dashboard-page">
+  <section class="dashboard-hero" aria-labelledby="dashboard-title">
+    <div class="dashboard-hero-copy">
+      <p class="dashboard-kicker">Restaurant intelligence · Verified snapshot</p>
+      <h1 id="dashboard-title">Smarter insights for <em>better food decisions.</em></h1>
+      <p>Analyze performance, predict demand, and optimize decisions across your permitted locations.</p>
+      {% if not unavailable and not dashboard.empty %}
+      <div class="dashboard-chips" aria-label="Dashboard scope">
+        <span><svg class="header-icon" aria-hidden="true"><use href="{% static 'assets/icons.svg' %}#pin"></use></svg>{{ dashboard.location_count }} accessible location{{ dashboard.location_count|pluralize }}</span>
+        <span><svg class="header-icon" aria-hidden="true"><use href="{% static 'assets/icons.svg' %}#calendar"></use></svg>{{ dashboard.window_start|date:"d M" }}–30 Jun 2026</span>
+        <span>Verified historical data</span>
+      </div>
+      {% endif %}
+    </div>
+    <div class="dashboard-hero-image"><img src="{% static 'assets/restaurant-table.png' %}" alt="A representative restaurant dining scene"><span>Representative photography</span></div>
+  </section>
+  {% if unavailable %}
+  <p role="status" class="dashboard-warning">The verified executive snapshot is unavailable. Check the upstream reports before using this dashboard.</p>
+  {% elif dashboard.empty %}
+  <p role="status" class="dashboard-warning">No verified locations are available to your account.</p>
+  {% else %}
+  <div class="dashboard-kpis">
+    <section class="dashboard-kpi kpi-revenue"><div class="kpi-top"><span class="kpi-icon">↗</span><h2>Total revenue</h2></div><p class="kpi-value" title="PKR {{ dashboard.revenue|floatformat:2 }}">PKR {{ dashboard.revenue|compact_number }}</p><p class="kpi-caption">Accepted completed baskets · 90 days</p></section>
+    <section class="dashboard-kpi kpi-profit"><div class="kpi-top"><span class="kpi-icon">◈</span><h2>Profit proxy</h2></div><p class="kpi-value" title="PKR {{ dashboard.direct_contribution|floatformat:2 }}">PKR {{ dashboard.direct_contribution|compact_number }}</p><p class="kpi-caption">Direct contribution; not net accounting profit</p></section>
+    <section class="dashboard-kpi kpi-orders"><div class="kpi-top"><span class="kpi-icon">▤</span><h2>Total orders</h2></div><p class="kpi-value">{{ dashboard.completed_orders|compact_number }}</p><p class="kpi-caption">Completed order headers</p></section>
+    <section class="dashboard-kpi kpi-aov"><div class="kpi-top"><span class="kpi-icon">◎</span><h2>Average order value</h2></div><p class="kpi-value">PKR {{ dashboard.average_order_value|floatformat:2 }}</p><p class="kpi-caption">Revenue ÷ completed orders</p></section>
+  </div>
+  <div class="dashboard-main-grid">
+    <section class="dashboard-panel trend-panel" aria-labelledby="trend-title">
+      <div class="panel-heading"><div><p class="panel-eyebrow">Historical performance</p><h2 id="trend-title">Weekly revenue trend</h2><p>Accepted sales across your accessible locations</p></div><span class="panel-tag">Revenue · PKR</span></div>
+      <div class="weekly-chart" role="img" aria-label="Weekly historical revenue from 2 April through 30 June 2026">
+        {% for week in dashboard.weekly_trend %}
+        <div class="weekly-column" title="Week of {{ week.week_start|date:'d M Y' }}: PKR {{ week.revenue|floatformat:2 }} revenue, {{ week.orders }} orders"><span class="weekly-amount">{{ week.revenue|compact_number }}</span><span class="weekly-track"><span class="weekly-bar" style="--bar-size: {{ week.height_percent }}%"></span></span><span class="weekly-label">{{ week.week_start|date:"d M" }}</span></div>
+        {% endfor %}
+      </div>
+      <p class="chart-note">Each bar is a seven-day period; the final period may be shorter. Hover a bar for exact values.</p>
+    </section>
+    <section class="dashboard-panel insight-panel" aria-labelledby="insights-title">
+      <div class="panel-heading"><div><p class="panel-eyebrow">From verified evidence</p><h2 id="insights-title">Key insights</h2></div><a href="{% url 'restaurants:recommendations' %}">Review all →</a></div>
+      {% with leader=dashboard.locations.0 %}
+      <div class="insight-row"><span class="insight-dot insight-positive">↗</span><div><strong>{{ leader.name }} leads revenue</strong><p>{{ leader.city }} · PKR {{ leader.revenue|compact_number }} in the historical window</p></div></div>
+      {% endwith %}
+      <div class="insight-row"><span class="insight-dot insight-warning">!</span><div><strong>{{ dashboard.anomaly_days }} flagged location-day{{ dashboard.anomaly_days|pluralize }}</strong><p>Review signals, not confirmed data errors.</p></div></div>
+      <div class="insight-row"><span class="insight-dot insight-blue">↗</span><div><strong>{{ dashboard.forecast_demand|compact_number }} portions forecast</strong><p>July 2026 estimate; not observed sales.</p></div></div>
+      <div class="insight-row"><span class="insight-dot insight-neutral">✓</span><div><strong>{{ dashboard.critical_recommendations }} critical recommendation{{ dashboard.critical_recommendations|pluralize }}</strong><p>Only candidates meeting the strict priority gate.</p></div></div>
+    </section>
+  </div>
+  <div class="dashboard-secondary-grid">
+    <section class="dashboard-panel" aria-labelledby="locations-title"><div class="panel-heading"><div><p class="panel-eyebrow">Location comparison</p><h2 id="locations-title">Top locations by revenue</h2></div><a href="{% url 'restaurants:list' %}">All locations →</a></div>
+      <div class="location-ranking">{% for location in dashboard.locations|slice:":5" %}<div class="ranking-row"><span class="ranking-name">{{ location.name }}<small>{{ location.city }}</small></span><span class="ranking-track"><span style="width: {{ location.revenue_share_of_top }}%"></span></span><strong>PKR {{ location.revenue|compact_number }}</strong></div>{% endfor %}</div>
+    </section>
+    <section class="dashboard-panel" aria-labelledby="channels-title"><div class="panel-heading"><div><p class="panel-eyebrow">Completed orders</p><h2 id="channels-title">Ordering channels</h2></div></div>
+      <div class="channel-list">{% for channel in dashboard.channels %}<div class="channel-row"><div><strong>{{ channel.name }}</strong><span>{{ channel.orders|compact_number }} orders</span></div><span class="channel-track"><span style="width: {{ channel.order_share_percent|floatformat:1 }}%"></span></span><b>{{ channel.order_share_percent|floatformat:1 }}%</b></div>{% endfor %}</div>
+    </section>
+  </div>
+  <section class="dashboard-panel evidence-panel" aria-labelledby="evidence-title"><div class="panel-heading"><div><p class="panel-eyebrow">Supporting measures</p><h2 id="evidence-title">Customer, waste &amp; forecast evidence</h2></div></div>
+    <div class="evidence-grid"><div><span>Active customers</span><strong>{{ dashboard.active_customers|compact_number }}</strong><small>Identified customers with eligible orders</small></div><div><span>Repeat customers</span><strong>{{ dashboard.repeat_customers|compact_number }}</strong><small>At least two eligible orders</small></div><div><span>Recorded wastage</span><strong>{{ dashboard.wasted_quantity|compact_number }} portions</strong><small>Accepted waste cost: PKR {{ dashboard.waste_cost|compact_number }}</small></div><div><span>Forecast demand</span><strong>{{ dashboard.forecast_demand|compact_number }} portions</strong><small>July 2026 estimate, not actual sales</small></div></div>
+    <p class="evidence-disclosure">Direct contribution excludes overhead and delivery-platform fees. Wastage covers accepted records only; inventory gaps remain. Forecast and anomaly values are review signals, not actual future outcomes.</p>
+  </section>
+  <details class="dashboard-panel detail-table"><summary>View full location comparison</summary><div class="overflow-x-auto"><table class="min-w-full text-left text-sm"><thead><tr><th class="p-3">Location</th><th class="p-3">Orders</th><th class="p-3">Revenue</th><th class="p-3">Direct contribution</th><th class="p-3">Waste</th></tr></thead><tbody>{% for location in dashboard.locations %}<tr><th class="p-3 font-medium">{{ location.name }}<span class="block text-xs font-normal text-slate-500">{{ location.city }} · {{ location.code }}</span></th><td class="p-3">{{ location.orders }}</td><td class="p-3">PKR {{ location.revenue|floatformat:2 }}</td><td class="p-3">PKR {{ location.direct_contribution|floatformat:2 }}</td><td class="p-3">{{ location.wasted_quantity|floatformat:0 }} portions</td></tr>{% endfor %}</tbody></table></div></details>
+  <div class="dashboard-next"><a href="{% url 'menu_dashboard' %}">Explore menu intelligence →</a><a href="{% url 'restaurants:recommendations' %}">Review recommendations →</a><a href="{% url 'restaurants:scenarios' %}">Explore what-if analysis →</a></div>
+  {% endif %}
+</div>
+{% endblock %}
