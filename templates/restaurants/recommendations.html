@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Recommendation Evidence · DineIQ{% endblock %}
+{% block content %}
+<div class="mb-8">
+  <p class="text-sm font-semibold uppercase tracking-wider text-accent">Review-only analytics</p>
+  <h1 class="mt-2 text-3xl font-bold">Recommendation evidence</h1>
+  <p class="mt-3 max-w-3xl text-slate-600">Each candidate shows the measurements behind the review action, a review-priority reason and an important limitation. Priority reflects current exposure, not expected savings. Nothing here changes prices, stock, campaigns or menu availability automatically.</p>
+</div>
+{% if unavailable %}
+<p role="status" class="rounded-lg border border-amber-300 bg-amber-50 p-4 text-amber-900">The verified prioritized evidence report is not available yet. Generate Step 39 before using this page.</p>
+{% else %}
+<form method="get" class="mb-6 flex flex-wrap items-end gap-3">
+  <label for="type" class="text-sm font-medium">Recommendation type</label>
+  <select id="type" name="type" class="rounded-lg border border-slate-300 bg-white px-3 py-2">
+    <option value="">All visible types</option>
+    {% for type in types %}<option value="{{ type }}" {% if selected_type == type %}selected{% endif %}>{{ type }}</option>{% endfor %}
+  </select>
+  <label for="priority" class="text-sm font-medium">Priority</label>
+  <select id="priority" name="priority" class="rounded-lg border border-slate-300 bg-white px-3 py-2">
+    <option value="">All priorities</option>
+    {% for priority in priorities %}<option value="{{ priority }}" {% if selected_priority == priority %}selected{% endif %}>{{ priority }}</option>{% endfor %}
+  </select>
+  <button class="rounded-lg theme-action px-4 py-2 text-white" type="submit">Filter</button>
+</form>
+<p class="mb-4 text-sm text-slate-600">{{ page_obj.paginator.count }} visible candidates · 20 per page</p>
+{% for row in page_obj %}
+<article class="mb-5 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+  <div class="flex flex-wrap items-center justify-between gap-2">
+    <h2 class="text-xl font-semibold">{{ row.recommended_action }}</h2>
+    <span class="rounded-full bg-warm-soft px-3 py-1 text-xs font-medium text-ink">{{ row.recommendation_type }} · {{ row.priority }}</span>
+  </div>
+  <p class="mt-2 text-sm text-slate-600">{% if row.restaurant_code %}Location {{ row.restaurant_code }} · {% endif %}Subject {{ row.subject_code }}{% if row.related_code %} · Related {{ row.related_code }}{% endif %} · As of {{ row.as_of_exclusive }}</p>
+  <h3 class="mt-5 font-semibold">Why this is being reviewed</h3>
+  <ul class="mt-2 list-disc space-y-1 pl-6 text-slate-700">{% for reason in row.reason_lines %}<li>{{ reason }}</li>{% endfor %}</ul>
+  <div class="mt-4 rounded-lg bg-sky-50 p-3 text-sm text-sky-950">
+    <p><span class="font-semibold">Priority basis:</span> {{ row.priority_reason }}</p>
+    <p class="mt-1">Current exposure: {{ row.impact_exposure|floatformat:2 }} {{ row.impact_unit }} · {{ row.impact_basis }}. This is not estimated benefit.</p>
+  </div>
+  <p class="mt-4 rounded-lg bg-amber-50 p-3 text-sm text-amber-900"><span class="font-semibold">Caveat:</span> {{ row.limitation }}</p>
+  <p class="mt-3 text-xs text-slate-500">Source: {{ row.source_steps }} · Evidence ID {{ row.candidate_id }}</p>
+</article>
+{% empty %}
+<p class="rounded-lg border border-slate-200 bg-white p-6">No recommendations are visible for this account and filter.</p>
+{% endfor %}
+<nav aria-label="Recommendation pages" class="mt-8 flex items-center gap-4 text-sm">
+  {% if page_obj.has_previous %}<a class="underline" href="?page={{ page_obj.previous_page_number }}{% if selected_type %}&amp;type={{ selected_type|urlencode }}{% endif %}{% if selected_priority %}&amp;priority={{ selected_priority|urlencode }}{% endif %}">Previous</a>{% endif %}
+  <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+  {% if page_obj.has_next %}<a class="underline" href="?page={{ page_obj.next_page_number }}{% if selected_type %}&amp;type={{ selected_type|urlencode }}{% endif %}{% if selected_priority %}&amp;priority={{ selected_priority|urlencode }}{% endif %}">Next</a>{% endif %}
+</nav>
+{% endif %}
+{% endblock %}
