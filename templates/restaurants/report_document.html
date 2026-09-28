@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ report.title }} — DineIQ report</title>
+  <style>
+    :root { --ink: #272e29; --muted: #626b61; --paper: #f7f8f5; --line: #eaede6; --orange: #c94e21; }
+    body { color: var(--ink); background: #fff; font: 15px/1.5 Arial, sans-serif; max-width: 960px; margin: 0 auto; padding: 42px 28px; }
+    h1 { color: var(--ink); font: 38px/1.15 Georgia, serif; margin: 0 0 8px; } h2 { font-size: 20px; margin: 34px 0 8px; }
+    p { margin: 6px 0 14px; } .eyebrow { color: var(--orange); font-size: 12px; font-weight: bold; letter-spacing: .12em; text-transform: uppercase; }
+    .meta { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 12px 0; color: var(--muted); }
+    table { border-collapse: collapse; width: 100%; margin-top: 10px; font-size: 13px; }
+    th,td { border-bottom: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+    th { background: var(--paper); color: var(--ink); } tr { break-inside: avoid; }
+    .notes { background: #fffbeb; border: 1px solid #fcd34d; padding: 16px 20px; margin-top: 32px; }
+    .footer { border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; margin-top: 36px; padding-top: 12px; }
+    @media print { body { max-width: none; padding: 0; } a { color: inherit; text-decoration: none; } }
+  </style>
+</head>
+<body>
+  <p class="eyebrow">DineIQ · verified analytical report</p>
+  <h1>{{ report.title }}</h1>
+  <p class="meta">{{ report.location_count }} accessible location{{ report.location_count|pluralize }} · historical cutoff {{ report.as_of }} · source data is synthetic</p>
+  {% for section in report.sections %}
+    <section><h2>{{ section.title }}</h2>{% if section.note %}<p>{{ section.note }}</p>{% endif %}
+      <table><thead><tr>{% for column in section.columns %}<th scope="col">{{ column }}</th>{% endfor %}</tr></thead>
+      <tbody>{% for row in section.rows %}<tr>{% for value in row %}<td>{{ value|default_if_none:"—" }}</td>{% endfor %}</tr>{% empty %}<tr><td colspan="8">No matching evidence for this scope.</td></tr>{% endfor %}</tbody></table>
+    </section>
+  {% endfor %}
+  <div class="notes"><strong>Interpretation and limits</strong><ul>{% for note in report.notes %}<li>{{ note }}</li>{% endfor %}</ul></div>
+  <p class="footer">Generated on request from verified DineIQ snapshots. This document is a review artifact; figures are not live operational data.</p>
+</body>
+</html>
