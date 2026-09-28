@@ -1,0 +1,62 @@
+{
+  "prepared_on": "2026-09-27",
+  "purpose": "Source files inspected for the documentation pack; hashes identify local evidence, not an external authenticity guarantee.",
+  "files": [
+    {
+      "path": "processed_data/step05-full/quality_report.json",
+      "bytes": 16243,
+      "sha256": "02dd1a2bace251a2cf2ee0c9d8efbdf5a18ecbac01c2c41557e0b912a0dfd034"
+    },
+    {
+      "path": "processed_data/step12-full/demand_model_report.json",
+      "bytes": 8158,
+      "sha256": "fea536748f17020a149d0066824c72b6ff2e59dd4a3b290a408a86ef66967950"
+    },
+    {
+      "path": "processed_data/step13-full/python_demand_report.json",
+      "bytes": 3286,
+      "sha256": "880f5f2ba678785fc76f72db4ad0847f47d43b59f11bc7da86608fbb88ac2119"
+    },
+    {
+      "path": "processed_data/step14-full-verified/comparison_report.json",
+      "bytes": 19880,
+      "sha256": "dfa39f23ff2b980edac5594e966116297383c78b65b6742dcb78b38006951130"
+    },
+    {
+      "path": "processed_data/step14-full-verified/record_comparison.csv",
+      "bytes": 4882310,
+      "sha256": "9658abee1abda63858b65cfd73ab2e94dc98eeb505369f820853cf053f3ddad2"
+    },
+    {
+      "path": "processed_data/step20-full/forecast_report.json",
+      "bytes": 7711,
+      "sha256": "113fd8baaa6ecd3bec3d1d21477cfd67b846f9a3c962be3eac3fc239879dea0e"
+    },
+    {
+      "path": "processed_data/step22-full/forecast_accuracy_report.json",
+      "bytes": 16487,
+      "sha256": "af158b7e347f204539267c296e2157d5d4dbcded8816a4167115ed4687830618"
+    },
+    {
+      "path": "processed_data/step24-verified-full/wastage_risk_report.json",
+      "bytes": 3965,
+      "sha256": "1c0f1a7432e0bdca4d56652e42782254db8277f0ffe5f5cf8f66526d34350656"
+    },
+    {
+      "path": "processed_data/step26-full/price_sensitivity_report.json",
+      "bytes": 1901,
+      "sha256": "565f3c2c5ce9b07d47a37213ea81f7e4ca968f2b3b037ca792fc938ea4366ada"
+    },
+    {
+      "path": "processed_data/step37-full/recommendation_engine_report.json",
+      "bytes": 1895,
+      "sha256": "f9aea43dfbd1b9117981eee014d7af24ba6eba255598afc96023c8242230d1d8"
+    },
+    {
+      "path": "processed_data/step39-full/recommendation_priority_report.json",
+      "bytes": 1230,
+      "sha256": "23380203f3ba1f422d1d906469c22dc59fc2a85c51afdafa30d8b5aeeeb18753"
+    }
+  ]
+}
+

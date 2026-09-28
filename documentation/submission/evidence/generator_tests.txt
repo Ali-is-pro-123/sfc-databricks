@@ -1,0 +1,54 @@
+DineIQ documentation evidence: 2026-09-27
+Command: uv run python -m unittest tests.test_generator
+Exit code: 0
+
+Inventory days generated: 120/120
+.Inventory days generated: 120/120
+.Inventory days generated: 120/120
+...Indexed clean restaurants: 4
+Indexed clean menu_categories: 12
+Indexed clean menu_items: 36
+Indexed clean customers: 600
+Indexed clean ordering_channels: 4
+Indexed clean pricing_history: 424
+Indexed clean promotions: 8
+Indexed clean promotion_items: 32
+Indexed clean orders: 3,500
+Indexed clean order_items: 10,500
+Indexed clean ratings: 1,200
+Indexed clean inventory: 16,920
+Indexed clean wastage: 750
+Verified raw restaurants: 4
+Verified raw menu_categories: 12
+Verified raw menu_items: 36
+Verified raw customers: 600
+Verified raw ordering_channels: 4
+Verified raw pricing_history: 424
+Verified raw promotions: 8
+Verified raw promotion_items: 32
+Verified raw orders: 3,583
+Verified raw order_items: 10,643
+Verified raw ratings: 1,200
+Verified raw inventory: 16,920
+Verified raw wastage: 750
+All schema, relationship, accounting and corruption checks passed.
+..Indexed clean restaurants: 4
+Indexed clean menu_categories: 12
+Indexed clean menu_items: 36
+Indexed clean customers: 600
+Indexed clean ordering_channels: 4
+Indexed clean pricing_history: 424
+Indexed clean promotions: 8
+Indexed clean promotion_items: 32
+Indexed clean orders: 3,500
+Indexed clean order_items: 10,500
+Indexed clean ratings: 1,200
+Indexed clean inventory: 16,920
+Indexed clean wastage: 750
+..Inventory days generated: 120/120
+..
+----------------------------------------------------------------------
+Ran 11 tests in 8.710s
+
+OK
+
