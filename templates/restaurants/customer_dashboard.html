@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Customer intelligence · DineIQ{% endblock %}
+{% block content %}
+<div class="mb-8">
+  <p class="text-sm font-semibold uppercase tracking-wider text-accent">Verified customer evidence · through 30 June 2026</p>
+  <h1 class="mt-2 text-3xl font-bold">Customer intelligence</h1>
+  <p class="mt-3 max-w-3xl text-slate-600">Behavioral segments, RFM distribution and observed customer trends for your accessible restaurants. Only identified, completed orders with known-complete baskets count.</p>
+</div>
+{% if unavailable %}
+<p role="status" class="rounded-lg border border-amber-300 bg-amber-50 p-4 text-amber-900">Verified customer sources are unavailable or inconsistent. Check Steps 6, 15, 16 and 36.</p>
+{% elif dashboard.empty %}
+<p class="rounded-lg border border-slate-200 bg-white p-6">No eligible customer history is available for your permitted locations.</p>
+{% else %}
+<p class="mb-4 text-sm"><a class="underline text-accent" href="{% url 'download_csv' 'customers' %}">Download segment and RFM counts (CSV)</a></p>
+<p class="mb-5 rounded-lg bg-sky-50 p-4 text-sm text-sky-900">{% if dashboard.full_network %}Network-wide verified Step 15, 16 and 36 classifications, including registered customers with no eligible purchase.{% else %}Location-scoped classifications recomputed from your {{ dashboard.location_count }} accessible restaurant{{ dashboard.location_count|pluralize }}. A customer is included only after an eligible visit at one of these locations; network-wide labels and no-purchase counts are deliberately excluded.{% endif %}</p>
+<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+  <section class="rounded-xl border bg-white p-5"><h2 class="text-sm text-slate-600">Customers in cohort</h2><p class="mt-2 text-2xl font-bold">{{ dashboard.population }}</p><p class="text-xs text-slate-500">{{ dashboard.eligible_visits }} eligible visits</p></section>
+  <section class="rounded-xl border bg-white p-5"><h2 class="text-sm text-slate-600">High-value loyal</h2><p class="mt-2 text-2xl font-bold">{{ dashboard.high_value }}</p><p class="text-xs text-slate-500">Six or more recent visits and top-quartile spend, after higher-priority segments</p></section>
+  <section class="rounded-xl border bg-white p-5"><h2 class="text-sm text-slate-600">At-risk segment</h2><p class="mt-2 text-2xl font-bold">{{ dashboard.at_risk }}</p><p class="text-xs text-slate-500">Repeat visitors with no visit in the last 90 days</p></section>
+  <section class="rounded-xl border bg-white p-5"><h2 class="text-sm text-slate-600">Promotion-driven segment</h2><p class="mt-2 text-2xl font-bold">{{ dashboard.promotion_driven }}</p><p class="text-xs text-slate-500">At least half of three or more recent visits used a promotion</p></section>
+</div>
+{% if dashboard.high_review is not None %}<p class="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">{{ dashboard.high_review }} customers have a Step 36 high review-priority signal. This is a heuristic review band, not a churn probability or an automatic outreach list.</p>{% endif %}
+<div class="mt-8 grid gap-6 lg:grid-cols-2">
+  <section class="rounded-xl border bg-white p-5"><h2 class="text-xl font-semibold">Behavioral segments</h2><table class="mt-4 w-full text-sm"><thead><tr class="border-b text-left"><th class="py-2">Segment</th><th class="py-2 text-right">Customers</th></tr></thead><tbody>{% for name,count in dashboard.segment_rows %}<tr class="border-b"><td class="py-2">{{ name }}</td><td class="py-2 text-right">{{ count }}</td></tr>{% endfor %}</tbody></table></section>
+  <section class="rounded-xl border bg-white p-5"><h2 class="text-xl font-semibold">RFM distribution</h2><p class="mt-1 text-xs text-slate-500">Recency, frequency and monetary tiers</p><table class="mt-4 w-full text-sm"><thead><tr class="border-b text-left"><th class="py-2">Tier</th><th class="py-2 text-right">Customers</th></tr></thead><tbody>{% for name,count in dashboard.tier_rows %}<tr class="border-b"><td class="py-2">{{ name }}</td><td class="py-2 text-right">{{ count }}</td></tr>{% endfor %}</tbody></table></section>
+</div>
+<section class="mt-8 rounded-xl border bg-white p-5"><h2 class="text-xl font-semibold">Monthly customer trend</h2><p class="mt-1 text-sm text-slate-600">January–June 2026; distinct customers are counted within each month, not added across months.</p><div class="mt-4 overflow-x-auto"><table class="w-full text-sm"><thead><tr class="border-b text-left"><th class="py-2">Month</th><th class="py-2 text-right">Active customers</th><th class="py-2 text-right">Visits</th><th class="py-2 text-right">Accepted revenue (PKR)</th></tr></thead><tbody>{% for row in dashboard.trends %}<tr class="border-b"><td class="py-2">{{ row.month }}</td><td class="py-2 text-right">{{ row.customers }}</td><td class="py-2 text-right">{{ row.visits }}</td><td class="py-2 text-right">{{ row.revenue|floatformat:2 }}</td></tr>{% endfor %}</tbody></table></div></section>
+<p class="mt-5 text-sm text-slate-600">Promotion use is observed behavior, not proof of causal sensitivity. Synthetic data and heuristic customer labels require human review before action.</p>
+{% endif %}
+{% endblock %}
