@@ -6,7 +6,7 @@
 - **Purpose:** Organize SRS deliverables without moving source files and prepare the Docker Hub/GitHub handoff.
 - **Affected files:** `scripts/build_submission_package.ps1`, the ignored `handoff_exports/submission_package/` copy, `compose.yaml`, `README.md`, and this declaration.
 - **Changes:** Copied selected source/data/model evidence into 17 SRS-aligned folders, documented pending deliverables honestly, made the Spark image selectable in Compose, and added Docker Hub and GitHub submission instructions.
-- **Testing:** Verified 17 folders, copied raw-data and analytical evidence hashes, excluded local secrets/runtime files, and checked Compose configuration. Image build/push and repository push outcomes must be recorded separately after execution.
+- **Testing:** Verified 17 folders, copied raw-data and analytical evidence hashes, excluded local secrets/runtime files, checked Compose configuration, passed 94 Django and five frontend tests, smoke-tested Spark 3.5.9 in the rebuilt image, and verified Docker Hub digest `sha256:727c3a55ede62a3080672efb79c8e2e7df1e7b1bf13a52e5297ec4bd6741317d`. GitHub `main` push was verified independently.
 - **Human verifier:** Pending Ali Raza's independent review and sign-off. Git authorship does not itself prove review or implementation ownership.
 
 ## Documentation and submission preparation (2026-09-27)

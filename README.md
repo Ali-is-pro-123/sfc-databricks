@@ -333,9 +333,11 @@ uv run python dine_iq/manage.py check
 ## Docker Hub Spark image
 
 The Spark master and worker use the same image, built from
-`config/spark.Dockerfile`. The planned versioned image name is
-`alirazazulfiqar/sfc-databricks:latest`. The `latest` tag is mutable: record
-the pushed image digest for a reproducible evaluator handoff.
+`config/spark.Dockerfile`. The published Linux/amd64 image is
+[`alirazazulfiqar/sfc-databricks:latest`](https://hub.docker.com/r/alirazazulfiqar/sfc-databricks).
+The verified registry digest for the 29 September 2026 push is
+`sha256:727c3a55ede62a3080672efb79c8e2e7df1e7b1bf13a52e5297ec4bd6741317d`.
+The `latest` tag is mutable; pin that digest for a reproducible handoff.
 
 Build and publish the Spark runtime from the project root after signing in to
 Docker Hub as an account allowed to push to `alirazazulfiqar`:
@@ -378,6 +380,7 @@ or private `.env` values; distribute evaluator credentials securely.
 
 ## Project documentation
 
+- [Word project report with six diagrams](documentation/submission/DineIQ_Project_Report.docx): reviewable SRS deliverable draft.
 - [Submission preparation pack](documentation/submission/README.md): consolidated
   project report, diagrams, SRS traceability, evaluator guide, comparison report,
   captured test results, video storyboard and pending deliverables

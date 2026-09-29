@@ -10,7 +10,7 @@ explicit and should be explained to evaluators.
 
 ## Start here
 
-1. Read [Project report](project_report.md) and [Design diagrams](design_diagrams.md).
+1. Read the [Word project report with six diagrams](DineIQ_Project_Report.docx), alongside the [detailed Markdown report](project_report.md) and [diagram sources](design_diagrams.md).
 2. Review [Requirements traceability](requirements_traceability.md).
 3. Follow [Evaluator guide](evaluator_guide.md) for installation and evidence navigation.
 4. Read [Test evidence](test_evidence.md) and [Dual-pipeline comparison](dual_pipeline_report.md).
@@ -28,7 +28,7 @@ files exist on this machine; it does not mean they are included in Git or shared
 
 | # | Required deliverable | Current evidence | Remaining work |
 | --- | --- | --- | --- |
-| 1 | Project report | [Consolidated draft](project_report.md), [diagrams](design_diagrams.md), [data dictionary](../data_dictionary.md) | Team review; render diagrams and prepare final submission format |
+| 1 | Project report | [Word draft with six diagrams](DineIQ_Project_Report.docx), [detailed report](project_report.md), [diagram sources](design_diagrams.md), [data dictionary](../data_dictionary.md) | Team review and final sign-off |
 | 2 | Source code | Django, templates, static assets, generator, Spark/SQL, Python pipeline, tests | Public repository; license decision; dependency export if evaluator requires requirements.txt |
 | 3 | Big Data dataset | `raw_data/full-seed42/`, Step 5 clean/quarantine Parquet, Steps 12/13 supervised snapshots | Package small raw/clean samples; publish large-artifact access instructions; execute hidden-data rehearsal |
 | 4 | Spark processing evidence | Step 5-12 JSON reports, SQL, historical execution logs under `processed_data/` | Collect the authoritative logs and reports into a shareable evidence bundle |
@@ -39,8 +39,8 @@ files exist on this machine; it does not mean they are included in Git or shared
 | 9 | Test cases/results | [Test evidence](test_evidence.md), unit tests and historical Spark tests | Repeat Spark acceptance run when final code is frozen; hidden-data, scale and deployment tests |
 | 10 | Installation instructions | [Evaluator guide](evaluator_guide.md), root README, stage-specific commands | Rehearse on a clean Windows machine |
 | 11 | Execution instructions | Evaluator guide and linked Step 4-50 documents | End-to-end regeneration rehearsal with a new output namespace |
-| 12 | Public GitHub repository | Local source tree; no commits at the earlier QA inspection | Real commits from contributors; public URL; do not invent or backdate history |
-| 13 | Deployed application/local alternative | Local Django with Docker services | Choose public deployment or validate SRS-allowed complete local installation; evaluator accounts and access instructions |
+| 12 | Public GitHub repository | Public `main` at `https://github.com/Ali-is-pro-123/sfc-databricks` | Verify real individual contribution claims; do not invent or backdate history |
+| 13 | Deployed application/local alternative | Local Django; Spark runtime published at `alirazazulfiqar/sfc-databricks:latest` | Docker image is not a public web deployment; validate complete local installation or deploy web app |
 | 14 | Mandatory MP4 demonstration | [Storyboard](demonstration_storyboard.md) | Record, review and provide the MP4/link |
 | 15 | Published technical blog, at least 2,000 words | Methodology/evidence in this pack and step documents | Write reviewed article, check word count, publish and add URL |
 | 16 | AI declaration | [AI_USAGE.md](../../AI_USAGE.md), documentation-assistance entry | Real human verifier names and independent review for every affected module |
