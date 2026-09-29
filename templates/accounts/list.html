@@ -8,8 +8,8 @@
 <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white">
   <table class="w-full text-left text-sm">
     <caption class="sr-only">Application users and business roles</caption>
-    <thead class="bg-slate-100"><tr><th scope="col" class="p-4">Username</th><th scope="col" class="p-4">Role</th><th scope="col" class="p-4">Status</th></tr></thead>
-    <tbody>{% for account in page_obj %}<tr class="border-t border-slate-100"><td class="p-4">{{ account.username }}</td><td class="p-4">{{ account.get_role_display }}</td><td class="p-4">{{ account.is_active|yesno:'Active,Inactive' }}</td></tr>{% empty %}<tr><td colspan="3" class="p-4">No accounts found.</td></tr>{% endfor %}</tbody>
+    <thead class="bg-slate-100"><tr><th scope="col" class="p-4">Username</th><th scope="col" class="p-4">Role</th><th scope="col" class="p-4">Location access</th><th scope="col" class="p-4">Status</th><th scope="col" class="p-4">Action</th></tr></thead>
+    <tbody>{% for account in page_obj %}<tr class="border-t border-slate-100"><td class="p-4">{{ account.username }}</td><td class="p-4">{{ account.get_role_display }}</td><td class="p-4">{% if account.role == 'administrator' or account.role == 'analyst' %}All locations{% elif account.location_count %}{{ account.location_count }} assigned{% else %}<span class="text-amber-700">Needs assignment</span>{% endif %}</td><td class="p-4">{{ account.is_active|yesno:'Active,Inactive' }}</td><td class="p-4"><a class="font-medium underline" href="{% url 'accounts:access' account.pk %}">Manage access</a></td></tr>{% empty %}<tr><td colspan="5" class="p-4">No accounts found.</td></tr>{% endfor %}</tbody>
   </table>
 </div>
 <nav aria-label="Pagination" class="mt-5 flex gap-5 text-sm">

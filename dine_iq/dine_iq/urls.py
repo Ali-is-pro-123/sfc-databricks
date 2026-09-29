@@ -20,6 +20,7 @@ from apps.restaurants.admin import management_site
 from apps.restaurants import views as restaurant_views
 
 urlpatterns = [
+    path('data/', restaurant_views.data_management, name='data_management'),
     path('dashboard/', restaurant_views.executive_dashboard, name='executive_dashboard'),
     path('dashboard/menu/', restaurant_views.menu_intelligence_dashboard, name='menu_dashboard'),
     path('dashboard/customers/', restaurant_views.customer_intelligence_dashboard, name='customer_dashboard'),

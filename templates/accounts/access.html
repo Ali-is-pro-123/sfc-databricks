@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Manage access | DineIQ{% endblock %}
+{% block content %}
+<section class="mx-auto max-w-2xl rounded-2xl border border-slate-200 bg-white p-8">
+  <h1 class="mb-3 text-3xl font-semibold">Manage access</h1>
+  <p class="mb-7 text-sm text-slate-600">Update {{ account.username }}'s role and assigned locations. Changing a manager's locations takes effect on their next request.</p>
+  <form method="post">{% csrf_token %}{% include 'accounts/fields.html' %}
+    <button type="submit" class="rounded-lg theme-action px-5 py-3 text-white">Save access</button>
+    <a href="{% url 'accounts:list' %}" class="ml-4 underline">Cancel</a>
+  </form>
+</section>
+{% endblock %}

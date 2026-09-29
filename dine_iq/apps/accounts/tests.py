@@ -6,6 +6,9 @@ from django.db import IntegrityError, transaction
 from django.test import Client, TestCase
 from django.urls import reverse
 
+from apps.restaurants.access import visible_restaurants
+from apps.restaurants.models import LocationAccess, Restaurant
+
 from .models import User
 
 
@@ -17,6 +20,8 @@ class AccountTests(TestCase):
             role: User.objects.create_user(role, password=cls.password, role=role)
             for role in User.Role.values
         }
+        cls.location = Restaurant.objects.create(code="ACCOUNT-R1", name="Central", city="Karachi")
+        cls.other_location = Restaurant.objects.create(code="ACCOUNT-R2", name="North", city="Lahore")
 
     def test_anonymous_pages_require_login(self):
         for name in ("home", "list", "create"):
@@ -35,6 +40,7 @@ class AccountTests(TestCase):
                     self.assertEqual(self.client.get(reverse(f"accounts:{name}")).status_code, expected)
                 if expected == 403:
                     self.assertEqual(self.client.post(reverse("accounts:create"), {}).status_code, 403)
+                self.assertEqual(self.client.get(reverse("accounts:access", args=[user.pk])).status_code, expected)
 
     def test_login_and_post_logout(self):
         response = self.client.post(reverse("accounts:login"), {
@@ -71,6 +77,7 @@ class AccountTests(TestCase):
         payload = {
             "username": "new_manager", "role": User.Role.RESTAURANT_MANAGER,
             "password1": self.password, "password2": self.password,
+            "locations": [self.location.pk],
         }
         return payload | changes
 
@@ -85,6 +92,57 @@ class AccountTests(TestCase):
         self.assertNotEqual(user.password, self.password)
         self.assertFalse(user.is_superuser)
         self.assertFalse(user.is_staff)
+        self.assertEqual(list(visible_restaurants(user)), [self.location])
+
+    def test_manager_creation_requires_location_and_global_roles_reject_grants(self):
+        self.client.force_login(self.users[User.Role.ADMINISTRATOR])
+        response = self.client.post(reverse("accounts:create"), self.account_payload(locations=[]))
+        self.assertContains(response, "Select at least one location")
+        self.assertFalse(User.objects.filter(username="new_manager").exists())
+        response = self.client.post(reverse("accounts:create"), self.account_payload(role=User.Role.ANALYST))
+        self.assertContains(response, "already has access to all locations")
+        self.assertFalse(User.objects.filter(username="new_manager").exists())
+
+    def test_admin_can_update_existing_manager_scope_and_role(self):
+        admin = self.users[User.Role.ADMINISTRATOR]
+        manager = self.users[User.Role.RESTAURANT_MANAGER]
+        self.client.force_login(admin)
+        url = reverse("accounts:access", args=[manager.pk])
+        self.assertContains(self.client.get(url), "Assigned locations")
+        self.assertRedirects(self.client.post(url, {
+            "role": User.Role.RESTAURANT_MANAGER,
+            "locations": [self.location.pk, self.other_location.pk],
+        }), reverse("accounts:list"))
+        self.assertEqual(set(visible_restaurants(manager)), {self.location, self.other_location})
+        self.assertRedirects(self.client.post(url, {
+            "role": User.Role.RESTAURANT_MANAGER,
+            "locations": [self.other_location.pk],
+        }), reverse("accounts:list"))
+        self.assertEqual(list(visible_restaurants(manager)), [self.other_location])
+        self.assertRedirects(self.client.post(url, {"role": User.Role.ANALYST}), reverse("accounts:list"))
+        manager.refresh_from_db()
+        self.assertEqual(manager.role, User.Role.ANALYST)
+        self.assertFalse(LocationAccess.objects.filter(user=manager).exists())
+        self.assertEqual(set(visible_restaurants(manager)), {self.location, self.other_location})
+
+    def test_admin_cannot_change_own_role(self):
+        admin = self.users[User.Role.ADMINISTRATOR]
+        self.client.force_login(admin)
+        response = self.client.post(reverse("accounts:access", args=[admin.pk]), {
+            "role": User.Role.ANALYST,
+        })
+        self.assertContains(response, "cannot change your own role")
+        admin.refresh_from_db()
+        self.assertEqual(admin.role, User.Role.ADMINISTRATOR)
+
+    def test_manage_data_uses_product_page_not_admin_index(self):
+        self.client.force_login(self.users[User.Role.ADMINISTRATOR])
+        response = self.client.get(reverse("data_management"))
+        self.assertContains(response, "Manage data")
+        self.assertContains(response, "Advanced record editor")
+        self.assertContains(response, f'href="{reverse("data_management")}"')
+        self.client.force_login(self.users[User.Role.ANALYST])
+        self.assertEqual(self.client.get(reverse("data_management")).status_code, 403)
 
     def test_invalid_registration_does_not_create_user(self):
         self.client.force_login(self.users[User.Role.ADMINISTRATOR])
@@ -143,6 +201,7 @@ class AccountTests(TestCase):
         self.assertContains(response, 'name="next" value="/dashboard/"')
         self.assertContains(response, '/static/css/theme.css')
         self.assertContains(response, '/static/assets/dineiq-logo.png')
+        self.assertContains(response, 'rel="icon" href="/static/assets/dineiq-logo.png?v=2" type="image/png"')
         for asset in ("assets/brand.svg", "assets/dineiq-logo.png", "assets/restaurant-table.png", "assets/Geometric-Book.otf"):
             with self.subTest(asset=asset):
                 self.assertIsNotNone(finders.find(asset))

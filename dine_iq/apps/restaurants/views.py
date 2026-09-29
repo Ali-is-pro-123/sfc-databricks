@@ -9,6 +9,8 @@ from django.utils import timezone
 from pathlib import Path
 from urllib.parse import urlencode
 
+from apps.accounts.permissions import administrator_required
+
 from .access import visible_restaurants
 from .dashboard_data import DashboardUnavailable, build_executive_dashboard
 from .customer_dashboard import build_customer_dashboard
@@ -19,8 +21,19 @@ from .search_dashboard import build_search_dashboard
 from .reports import REPORTS, build_report
 from .exports import EXPORTS, build_export, csv_response
 from .menu_dashboard import build_menu_dashboard
-from .models import PricingHistory
+from .models import Customer, MenuItem, Order, PricingHistory, Restaurant
 from .scenarios import SCENARIOS, ScenarioError, analyze_impact, load_location_context, simulate
+
+
+@administrator_required
+def data_management(request):
+    """Give administrators a product-native entry point to managed records."""
+    return render(request, "restaurants/data_management.html", {
+        "location_count": Restaurant.objects.count(),
+        "menu_item_count": MenuItem.objects.count(),
+        "order_count": Order.objects.count(),
+        "customer_count": Customer.objects.count(),
+    })
 
 
 @login_required

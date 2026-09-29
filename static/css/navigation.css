@@ -16,6 +16,7 @@
 .header-icon { width: 17px; height: 17px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .header-utilities { display: flex; align-items: center; gap: 9px; margin-left: auto; }
 .header-period, .header-location { display: inline-flex; align-items: center; gap: 8px; min-height: 41px; padding: 0 12px; border: 1px solid #eeece5; border-radius: 10px; background: #faf9f5; color: var(--forest); font-size: 12px; font-weight: 700; white-space: nowrap; text-decoration: none; }
+.header-clock-label { color: #68766c; font-weight: 500; }
 .header-location:hover { border-color: #edbe91; background: #fff4e9; }
 .header-profile { display: flex; align-items: center; gap: 10px; min-width: 140px; padding-left: 16px; border-left: 1px solid #e9e8e0; }
 .account-avatar { display: grid; place-items: center; flex: none; width: 38px; height: 38px; border-radius: 50%; background: #f9d9a5; color: var(--forest); font-size: 14px; font-weight: 700; }
@@ -46,7 +47,7 @@ body.navigation-open { overflow: hidden; }
   .mobile-menu-button, .header-leading { display: none; }
   .workspace-header { padding-inline: 28px; }
 }
-@media (max-width: 1250px) { .header-period { display: none; } }
-@media (max-width: 760px) { .header-search, .header-location { display: none; } .workspace-header { padding-inline: 16px; } }
+@media (max-width: 1250px) { .header-location { display: none; } .header-clock-label { display: none; } }
+@media (max-width: 760px) { .header-search, .header-location { display: none; } .header-period { gap: 4px; padding-inline: 7px; font-size: 10px; } .header-period .header-icon { display: none; } .workspace-header { padding-inline: 16px; } }
 @media (max-width: 420px) { .workspace-header .account-avatar { display: none; } .header-profile { min-width: 0; } .mobile-brand-link .brand-logo { width: 126px; height: 49px; } .mobile-brand-link .brand-logo img { top: -27px; left: -5px; width: 135px; } }
 @media (prefers-reduced-motion: reduce) { .navigation-link { transition: none; } }
