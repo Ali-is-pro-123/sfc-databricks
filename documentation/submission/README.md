@@ -14,7 +14,7 @@ explicit and should be explained to evaluators.
 2. Review [Requirements traceability](requirements_traceability.md).
 3. Follow [Evaluator guide](evaluator_guide.md) for installation and evidence navigation.
 4. Read [Test evidence](test_evidence.md) and [Dual-pipeline comparison](dual_pipeline_report.md).
-5. Use [Demonstration storyboard](demonstration_storyboard.md) to prepare the mandatory video.
+5. Review the [published technical blog](technical_blog.md) against the current project evidence, then use the [demonstration storyboard](demonstration_storyboard.md) to prepare the mandatory video.
 6. Complete [Team contribution record](team_contributions.md) with real names and review evidence.
 
 The [source manifest](evidence/source_manifest.json) records SHA-256 hashes and
@@ -42,7 +42,7 @@ files exist on this machine; it does not mean they are included in Git or shared
 | 12 | Public GitHub repository | Public `main` at `https://github.com/Ali-is-pro-123/sfc-databricks` | Verify real individual contribution claims; do not invent or backdate history |
 | 13 | Deployed application/local alternative | Local Django; Spark runtime published at `alirazazulfiqar/sfc-databricks:latest` | Docker image is not a public web deployment; validate complete local installation or deploy web app |
 | 14 | Mandatory MP4 demonstration | [Storyboard](demonstration_storyboard.md) | Record, review and provide the MP4/link |
-| 15 | Published technical blog, at least 2,000 words | Methodology/evidence in this pack and step documents | Write reviewed article, check word count, publish and add URL |
+| 15 | Published technical blog, at least 2,000 words | [Public article and review status](technical_blog.md); approximately 4,679 article-body words | Reconcile older figures and architecture with current evidence; obtain human review |
 | 16 | AI declaration | [AI_USAGE.md](../../AI_USAGE.md), documentation-assistance entry | Real human verifier names and independent review for every affected module |
 | 17 | Final submission checklist | This register and requirements matrix | Resolve open items, verify every public link, sign off |
 | Checklist | Project presentation | Architecture, methods, results and limits available in this pack | Build and rehearse a slide deck |

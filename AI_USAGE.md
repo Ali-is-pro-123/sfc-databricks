@@ -1,5 +1,14 @@
 # AI Tool Usage Declaration
 
+## Published blog handoff (2026-09-29)
+
+- **Tool:** OpenAI Codex.
+- **Purpose:** Add the user-supplied public blog URL to the submission register and README.
+- **Affected files:** `README.md`, `documentation/submission/technical_blog.md`, `documentation/submission/README.md`, the copied section 15 handoff notes, and this declaration.
+- **Changes:** Verified public access and approximate article length, recorded the URL, and flagged numerical claims that describe an earlier project snapshot.
+- **Testing:** Public page returned HTTP 200; article-body extraction found approximately 4,679 words. No external blog content was edited.
+- **Human verifier:** Pending team review and correction of the published article.
+
 ## Submission packaging and Docker/GitHub release assistance (2026-09-29)
 
 - **Tool:** OpenAI Codex.

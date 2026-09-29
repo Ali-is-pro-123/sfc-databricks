@@ -374,13 +374,17 @@ final report, blog, and demonstration video. The source, technical documents,
 small synthetic schema samples, and report drafts are organized here; see the
 [submission register](documentation/submission/README.md). Full generated
 artifacts are ignored by Git and require a separate accessible handoff with
-checksums. A public blog URL, video URL, and final human approval are still
-pending and must not be represented as complete. Do not commit real passwords
+checksums. The [published technical blog](https://sfc-databricks-dineiq.blogspot.com/2026/09/dineiq-analytics-technical-blog.html)
+exceeds 2,000 words, but its [content review](documentation/submission/technical_blog.md)
+is still open because several figures describe an earlier project snapshot.
+The demonstration video URL and final human approval are still pending.
+Do not commit real passwords
 or private `.env` values; distribute evaluator credentials securely.
 
 ## Project documentation
 
 - [Word project report with six diagrams](documentation/submission/DineIQ_Project_Report.docx): reviewable SRS deliverable draft.
+- [Technical blog status and review](documentation/submission/technical_blog.md): public article link and figures that need reconciliation.
 - [Submission preparation pack](documentation/submission/README.md): consolidated
   project report, diagrams, SRS traceability, evaluator guide, comparison report,
   captured test results, video storyboard and pending deliverables
