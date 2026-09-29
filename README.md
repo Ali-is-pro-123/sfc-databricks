@@ -49,6 +49,8 @@ PostgreSQL domain tables without changing accounts or passwords. See
 - Large generated datasets, Parquet files, and trained models stay outside Git.
 - Windows/Django Python dependencies are managed through `pyproject.toml` and
   `uv.lock`; Spark-container scientific packages are defined in its Dockerfile.
+- The Docker Hub image is the **Spark runtime only**. It does not contain the
+  Django web server, PostgreSQL, Redis, or generated data/model artifacts.
 
 See `documentation/architecture.md` for the full architecture and folder map.
 
@@ -327,6 +329,52 @@ docker compose logs -f spark-master spark-worker
 docker compose stop
 uv run python dine_iq/manage.py check
 ```
+
+## Docker Hub Spark image
+
+The Spark master and worker use the same image, built from
+`config/spark.Dockerfile`. The planned versioned image name is
+`alirazazulfiqar/sfc-databricks:latest`. The `latest` tag is mutable: record
+the pushed image digest for a reproducible evaluator handoff.
+
+Build and publish the Spark runtime from the project root after signing in to
+Docker Hub as an account allowed to push to `alirazazulfiqar`:
+
+```powershell
+docker login
+docker build -f config/spark.Dockerfile -t alirazazulfiqar/sfc-databricks:latest .
+docker push alirazazulfiqar/sfc-databricks:latest
+```
+
+To use the published image on another machine, clone this GitHub repository
+first so the Spark jobs and SQL files are available as bind mounts. Set the
+image override before starting Compose; Django still runs through `uv` using
+the first-time setup steps above:
+
+```powershell
+$env:DINEIQ_SPARK_IMAGE = 'alirazazulfiqar/sfc-databricks:latest'
+docker compose pull spark-master spark-worker
+docker compose up -d --no-build postgres redis spark-master spark-worker
+```
+
+Without `DINEIQ_SPARK_IMAGE`, Compose keeps the original local
+`dineiq-spark-ml:3.5.9` build. The published image does not include the
+ignored full dataset, Parquet outputs, or model files. Generate them using
+the commands in this README, or obtain the separately reviewed data bundle.
+
+## GitHub submission status
+
+Public repository: [Ali-is-pro-123/sfc-databricks](https://github.com/Ali-is-pro-123/sfc-databricks).
+The SRS requires genuine team commits, complete source and generation scripts,
+Spark/SQL and independent Python pipelines, sample data, screenshots, test
+results, assumptions, limitations, evaluator instructions, and links to the
+final report, blog, and demonstration video. The source, technical documents,
+small synthetic schema samples, and report drafts are organized here; see the
+[submission register](documentation/submission/README.md). Full generated
+artifacts are ignored by Git and require a separate accessible handoff with
+checksums. A public blog URL, video URL, and final human approval are still
+pending and must not be represented as complete. Do not commit real passwords
+or private `.env` values; distribute evaluator credentials securely.
 
 ## Project documentation
 

@@ -36,7 +36,7 @@ services:
     build:
       context: .
       dockerfile: config/spark.Dockerfile
-    image: dineiq-spark-ml:3.5.9
+    image: ${DINEIQ_SPARK_IMAGE:-dineiq-spark-ml:3.5.9}
     command:
       - /opt/spark/bin/spark-class
       - org.apache.spark.deploy.master.Master
@@ -61,7 +61,7 @@ services:
     build:
       context: .
       dockerfile: config/spark.Dockerfile
-    image: dineiq-spark-ml:3.5.9
+    image: ${DINEIQ_SPARK_IMAGE:-dineiq-spark-ml:3.5.9}
     command:
       - /opt/spark/bin/spark-class
       - org.apache.spark.deploy.worker.Worker

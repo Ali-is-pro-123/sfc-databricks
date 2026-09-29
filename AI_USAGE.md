@@ -1,5 +1,14 @@
 # AI Tool Usage Declaration
 
+## Submission packaging and Docker/GitHub release assistance (2026-09-29)
+
+- **Tool:** OpenAI Codex.
+- **Purpose:** Organize SRS deliverables without moving source files and prepare the Docker Hub/GitHub handoff.
+- **Affected files:** `scripts/build_submission_package.ps1`, the ignored `handoff_exports/submission_package/` copy, `compose.yaml`, `README.md`, and this declaration.
+- **Changes:** Copied selected source/data/model evidence into 17 SRS-aligned folders, documented pending deliverables honestly, made the Spark image selectable in Compose, and added Docker Hub and GitHub submission instructions.
+- **Testing:** Verified 17 folders, copied raw-data and analytical evidence hashes, excluded local secrets/runtime files, and checked Compose configuration. Image build/push and repository push outcomes must be recorded separately after execution.
+- **Human verifier:** Pending Ali Raza's independent review and sign-off. Git authorship does not itself prove review or implementation ownership.
+
 ## Documentation and submission preparation (2026-09-27)
 
 - **Tool:** OpenAI Codex.
